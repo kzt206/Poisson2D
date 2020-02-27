@@ -1,5 +1,9 @@
 package poisson2da;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 // Program 2D Poisson equation 
@@ -24,7 +28,7 @@ public class Poisson2Da {
 		double Ex,Ey;//電場
 //		int i,j;
 		int loop;//繰り返しのカウンタ
-		PrintWriter fileWriter=null; //出力ファイルライター
+//		PrintWriter fileWriter=null; //出力ファイルライター
 		
 		// initialize phi,rho
 		for(int i = 0;i<N;i++) {
@@ -73,7 +77,26 @@ public class Poisson2Da {
 		}while(MaxErr>Conv);
 		
 		//ポテンシャルの出力
-		
+		PrintWriter fileWriter=null; //出力ファイルライター
+		File file = new File("Outputfile/phi.avd");
+		try {
+			fileWriter = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+			for(int i = 0;i<N;i++) {
+				for(int j = 0;j<N;j++) {
+			fileWriter.printf("%e %e %e\n", delta*i,delta*j,phi[i][j]);
+				}
+			}
+		}catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			if(fileWriter != null) {
+				try {
+					fileWriter.close();
+				}catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+		}
 		
 		//電場の出力
 	}
